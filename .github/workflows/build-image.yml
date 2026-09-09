@@ -1,0 +1,56 @@
+name: Build and push image
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "Tag to publish as (ghcr.io/<owner>/compose-unpacker-vals:<tag>)"
+        required: true
+        default: latest
+      base_image:
+        description: "compose-unpacker base image to build on"
+        required: true
+        default: ghcr.io/xeys/compose-unpacker:compose-v5-migration
+      vals_version:
+        description: "vals release version (no leading v)"
+        required: true
+        default: "0.46.0"
+      sops_version:
+        description: "sops release version (no leading v)"
+        required: true
+        default: "3.13.3"
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout compose-unpacker-vals
+        uses: actions/checkout@v4
+
+      - name: Checkout docker-vals
+        uses: actions/checkout@v4
+        with:
+          repository: xeys/docker-vals
+          path: docker-vals
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          build-args: |
+            BASE_IMAGE=${{ inputs.base_image }}
+            VALS_VERSION=${{ inputs.vals_version }}
+            SOPS_VERSION=${{ inputs.sops_version }}
+          tags: ghcr.io/${{ github.repository_owner }}/compose-unpacker-vals:${{ inputs.image_tag }}
