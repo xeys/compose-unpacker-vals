@@ -11,6 +11,10 @@ on:
         description: "compose-unpacker base image to build on"
         required: true
         default: ghcr.io/xeys/compose-unpacker:compose-v5-migration
+      docker_vals_version:
+        description: "docker-vals release version (no leading v)"
+        required: true
+        default: "0.2.0"
       vals_version:
         description: "vals release version (no leading v)"
         required: true
@@ -31,12 +35,6 @@ jobs:
       - name: Checkout compose-unpacker-vals
         uses: actions/checkout@v7
 
-      - name: Checkout docker-vals
-        uses: actions/checkout@v7
-        with:
-          repository: xeys/docker-vals
-          path: docker-vals
-
       - name: Log in to GHCR
         uses: docker/login-action@v4
         with:
@@ -51,6 +49,7 @@ jobs:
           push: true
           build-args: |
             BASE_IMAGE=${{ inputs.base_image }}
+            DOCKER_VALS_VERSION=${{ inputs.docker_vals_version }}
             VALS_VERSION=${{ inputs.vals_version }}
             SOPS_VERSION=${{ inputs.sops_version }}
           tags: ghcr.io/${{ github.repository_owner }}/compose-unpacker-vals:${{ inputs.image_tag }}
