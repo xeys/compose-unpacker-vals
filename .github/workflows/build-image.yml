@@ -10,7 +10,7 @@ on:
       base_image:
         description: "compose-unpacker base image to build on"
         required: true
-        default: ghcr.io/xeys/compose-unpacker:compose-v5-migration
+        default: ghcr.io/forgelab-me/compose-unpacker:compose-v5-migration
       docker_vals_version:
         description: "docker-vals release version (no leading v)"
         required: true
