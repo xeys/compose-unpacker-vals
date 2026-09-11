@@ -10,7 +10,7 @@ and, optionally, native Compose secrets (`secrets: <name>: file: ...` /
 Set it as Portainer's unpacker image:
 
 ```
-COMPOSE_UNPACKER_IMAGE=ghcr.io/xeys/compose-unpacker-vals:latest
+COMPOSE_UNPACKER_IMAGE=ghcr.io/forgelab-me/compose-unpacker-vals:latest
 ```
 
 Requires **Enable relative path volumes** on the stack, so the repo (and its
@@ -115,7 +115,7 @@ secrets:
 
 ```bash
 docker build \
-  --build-arg BASE_IMAGE=ghcr.io/xeys/compose-unpacker:compose-v5-migration \
+  --build-arg BASE_IMAGE=ghcr.io/forgelab-me/compose-unpacker:compose-v5-migration \
   --build-arg SECRET_OUTPUT_MODE=both \
   -t compose-unpacker-vals:local .
 ```

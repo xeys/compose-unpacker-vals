@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=ghcr.io/xeys/compose-unpacker:compose-v5-migration
+ARG BASE_IMAGE=ghcr.io/forgelab-me/compose-unpacker:compose-v5-migration
 
 FROM alpine:3.20 AS tools
 ARG DOCKER_VALS_VERSION=0.2.0

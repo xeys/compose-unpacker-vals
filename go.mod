@@ -1,4 +1,4 @@
-module github.com/xeys/compose-unpacker-vals
+module github.com/forgelab-me/compose-unpacker-vals
 
 go 1.26.8
 
