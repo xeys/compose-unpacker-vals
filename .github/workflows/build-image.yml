@@ -23,6 +23,22 @@ on:
         description: "sops release version (no leading v)"
         required: true
         default: "3.13.3"
+      docker_vals_sha256:
+        description: "sha256 of docker-vals-linux-amd64 for docker_vals_version (self-computed, docker-vals publishes no checksums file - verify by hand on bump)"
+        required: true
+        default: "40525605a97edb463f321cd300f70dc3c8774d7ac2fb2b993b2dd36281566daf"
+      vals_sha256:
+        description: "sha256 of vals_<version>_linux_amd64.tar.gz for vals_version, from vals' own checksums.txt"
+        required: true
+        default: "42d2f672dc98b040b8179e87b1c3474418003b95a938ba3bbe13310e5e82847c"
+      sops_sha256:
+        description: "sha256 of sops-v<version>.linux.amd64 for sops_version, from sops' own checksums.txt"
+        required: true
+        default: "e5bec3346a873ae91d871550f3e698c1aad962aff462a080e40f25fde17fef6b"
+      secret_output_mode:
+        description: "How the entrypoint wrapper exposes decrypted secrets: both, file, or env"
+        required: true
+        default: "both"
 
 permissions:
   contents: read
@@ -52,4 +68,8 @@ jobs:
             DOCKER_VALS_VERSION=${{ inputs.docker_vals_version }}
             VALS_VERSION=${{ inputs.vals_version }}
             SOPS_VERSION=${{ inputs.sops_version }}
+            DOCKER_VALS_SHA256=${{ inputs.docker_vals_sha256 }}
+            VALS_SHA256=${{ inputs.vals_sha256 }}
+            SOPS_SHA256=${{ inputs.sops_sha256 }}
+            SECRET_OUTPUT_MODE=${{ inputs.secret_output_mode }}
           tags: ghcr.io/${{ github.repository_owner }}/compose-unpacker-vals:${{ inputs.image_tag }}
